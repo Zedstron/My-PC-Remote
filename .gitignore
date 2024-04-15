@@ -2,6 +2,7 @@
 __pycache__/
 
 # Ignore build directories
+mypcremote.egg-info/
 build/
 dist/
 

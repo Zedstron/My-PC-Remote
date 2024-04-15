@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mypcremote"
-version = "0.5.1"
+version = "0.5.2"
 
 authors = [
   { name="Zain Ul Abidin", email="zain26134@gmail.com" }
@@ -47,6 +47,9 @@ dependencies = [
 ]
 
 license = {text = "MIT License"}
+
+[project.scripts]
+mypcremote = "mypcremote.__main__:main"
 
 [project.urls]
 Homepage = "https://github.com/Zedstron/My-PC-Remote"

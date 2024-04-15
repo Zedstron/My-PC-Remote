@@ -1,19 +1,20 @@
 import os
 import sys
 import discord
-import importlib
+from pydoc import importfile
 from dotenv import load_dotenv
 from discord.ext.commands import Bot
 
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 intents = discord.Intents.all()
 
 bot = Bot(description="A remote administration discord BOT to control your PC", command_prefix='#', intents=intents)
 
 def RegisterCommands():
-    scripts = [file[:-3] for file in os.listdir('commands') if file.endswith('.py') and file != '__init__.py']
+    commands = os.path.join(os.path.dirname(__file__), "commands")
+    scripts = [file for file in os.listdir(commands) if file.endswith('.py') and file != '__init__.py']
     for name in scripts:
-        script_module = importlib.import_module(f"commands.{name}")
+        script_module = importfile(os.path.join(commands, name))
         Instance = getattr(script_module, 'Run', None)
 
         if Instance and callable(Instance):
@@ -50,9 +51,10 @@ async def on_message(message):
         await bot.process_commands(message)
 
 def main():
+    sys.path.append(os.path.dirname(__file__))
     if os.environ.get('TOKEN', None) is None:
         token = input("Enter Auth Token: ")
-        with open('.env', 'w') as f:
+        with open(os.path.join(os.path.dirname(__file__), ".env"), 'w') as f:
             f.write(f'TOKEN={token}')
         Init(token)
     else:
