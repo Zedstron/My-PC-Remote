@@ -49,10 +49,14 @@ async def on_message(message):
     if proceed:
         await bot.process_commands(message)
 
-if os.environ.get('TOKEN', None) is None:
-    token = input("Enter Auth Token: ")
-    with open('.env', 'w') as f:
-        f.write(f'TOKEN={token}')
-    Init(token)
-else:
-    Init()
+def main():
+    if os.environ.get('TOKEN', None) is None:
+        token = input("Enter Auth Token: ")
+        with open('.env', 'w') as f:
+            f.write(f'TOKEN={token}')
+        Init(token)
+    else:
+        Init()
+
+if __name__ == "__main__":
+    main()
