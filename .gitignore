@@ -5,5 +5,8 @@ __pycache__/
 build/
 dist/
 
+# Ignore PyPi config auth file
+.pypirc
+
 # Ignore .env file
 .env
