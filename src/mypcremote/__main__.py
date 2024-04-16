@@ -53,7 +53,7 @@ async def on_message(message):
 def main():
     sys.path.append(os.path.dirname(__file__))
     if os.environ.get('TOKEN', None) is None:
-        token = input("Enter Auth Token: ")
+        token = input("Enter Auth Token: ") if len(sys.argv) == 1 else sys.argv[1]
         with open(os.path.join(os.path.dirname(__file__), ".env"), 'w') as f:
             f.write(f'TOKEN={token}')
         Init(token)
