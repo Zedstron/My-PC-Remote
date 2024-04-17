@@ -10,11 +10,11 @@ async def Run(ctx):
 
     if operating_system == "Windows":
         ctypes.windll.user32.LockWorkStation()
-        ctx.channel.send("Don't worry i am locked now")
+        await ctx.channel.send("Don't worry i am locked now")
     elif operating_system == "Linux":
         os.system("xdg-screensaver lock")
-        ctx.channel.send("I tried to lock myself, let's see if i am successfull")
+        await ctx.channel.send("I tried to lock myself, let's see if i am successfull")
     elif operating_system == "Darwin":
-        ctx.channel.send("I don't know how to lock myself on this OS")
+        await ctx.channel.send("I don't know how to lock myself on this OS")
     else:
-        ctx.channel.send("I don't know very much about this OS {}".format(operating_system))
+        await ctx.channel.send("I don't know very much about this OS {}".format(operating_system))

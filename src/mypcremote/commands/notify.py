@@ -20,12 +20,10 @@ async def Run(ctx, title: str, message: str, type: str = "messagebox", level: st
         if type == "messagebox":
             import ctypes
             ctypes.windll.user32.MessageBoxW(0, message, level.capitalize(), 0)
-        elif type == "win10toast":
+        elif type == "toast":
             from win10toast import ToastNotifier
             toaster = ToastNotifier()
             toaster.show_toast(title, message, duration=10)
-        else:
-            await ctx.channel.send("Unsupported notification type '{}' for Windows.".format(type))
     elif platform.system() == 'Linux':
         if type == "messagebox":
             os.system('zenity --{} --{} --text="{}"'.format(type, level, message))

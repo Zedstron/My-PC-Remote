@@ -24,8 +24,7 @@ def set_volume_windows(volume_level):
     from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
     devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
     volume = cast(interface, POINTER(IAudioEndpointVolume))
     volume.SetMasterVolumeLevelScalar(volume_level / 100, None)
 

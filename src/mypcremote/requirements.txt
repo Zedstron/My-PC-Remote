@@ -1,4 +1,9 @@
 python-dotenv
+tabulate
+psutil
+speedtest-cli
+win10toast
+opencv-python
 discord==2.3.2
 pystray==0.19.5
 serial==0.0.97

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mypcremote"
-version = "0.5.2"
+version = "0.5.4"
 
 authors = [
   { name="Zain Ul Abidin", email="zain26134@gmail.com" }
@@ -37,6 +37,12 @@ classifiers = [
 
 dependencies = [
     "python-dotenv",
+    "tabulate",
+    "psutil",
+    "pycaw",
+    "win10toast",
+    "speedtest-cli",
+    "opencv-python",
     "discord==2.3.2",
     "pystray==0.19.5",
     "serial==0.0.97",

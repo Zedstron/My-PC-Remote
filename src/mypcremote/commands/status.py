@@ -3,7 +3,7 @@ import pygetwindow as gw
 from tabulate import tabulate
 
 def Desc():
-    return "To get current usage status of machine"
+    return "To get current system usage & status"
 
 def get_cpu_usage():
     return psutil.cpu_percent(interval=1)
@@ -19,7 +19,7 @@ async def Run(ctx):
     response = [
         ['CPU', get_cpu_usage()],
         ['RAM', get_ram_usage()],
-        ['Active Window', get_active_window()]
+        ['Window', get_active_window()]
     ]
 
     message = tabulate(response, headers=['Resource', 'Usage'], tablefmt="pretty")

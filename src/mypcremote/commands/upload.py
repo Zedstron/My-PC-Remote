@@ -3,7 +3,7 @@ import shutil
 import os
 
 def Desc():
-    return "Let the bot upload the file as a attachment for you"
+    return "Let the bot upload the file as a attachment for you, If a path is directory it will be compressed"
 
 async def Run(ctx, file_path: str):
     try:
