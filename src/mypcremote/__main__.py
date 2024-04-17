@@ -4,26 +4,51 @@ import socket
 import discord
 from pydoc import importfile
 from dotenv import load_dotenv
+from discord.ext import commands
 from discord.ext.commands import Bot
+
+class BotControls(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(description="This will enable the bot specified by unique Hostname of the bot machine or all bots if not specified")
+    async def enable(ctx, hostname="all"):
+        if hostname == socket.gethostname() or hostname == "all":
+            count = HandleCommands()
+            await ctx.channel.send(f"Activated {count} commands")
+
+    @commands.command(description="This will disable the bot specified by unique Hostname of the bot machine or all bots if not specified")
+    async def disable(ctx, hostname="all"):
+        if hostname == socket.gethostname() or hostname == "all":
+            count = HandleCommands(register=False)
+            await ctx.channel.send(f"Disabled {count} commands")
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 intents = discord.Intents.all()
 
 bot = Bot(description="A remote administration discord BOT to control your PC", command_prefix='#', intents=intents)
 
-def RegisterCommands():
+def HandleCommands(register=True):
     commands = os.path.join(os.path.dirname(__file__), "commands")
     scripts = [file for file in os.listdir(commands) if file.endswith('.py') and file != '__init__.py']
+    count = 0
     for name in scripts:
-        script_module = importfile(os.path.join(commands, name))
-        Instance = getattr(script_module, 'Run', None)
+        command = name.split('.')[0]
+        if register and command not in [c.name for c in bot.commands]:
+            script_module = importfile(os.path.join(commands, name))
+            Instance = getattr(script_module, 'Run', None)
 
-        if Instance and callable(Instance):
-            desc = getattr(script_module, 'Desc', 'Not Available')
-            bot.command(name=name.split(".")[0], help=desc())(Instance)
+            if Instance and callable(Instance):
+                desc = getattr(script_module, 'Desc', 'Not Available')
+                bot.command(name=command, help=desc())(Instance)
+                count += 1
+        elif not register and command != "ping" and command in [c.name for c in bot.commands]:
+            bot.remove_command(command)
+            count += 1
+    return count
 
 def Init(token=os.environ.get('TOKEN')):
-    RegisterCommands()
+    HandleCommands()
     bot.run(token)
 
 @bot.event
@@ -32,6 +57,8 @@ async def on_ready():
     channels = list(bot.get_all_channels())
     if len(channels) > 0:
         await channels.pop().send(greeting)
+    if not bot.get_cog("BotControls"):
+        await bot.add_cog(BotControls(bot))
 
 @bot.event
 async def on_disconnect():
